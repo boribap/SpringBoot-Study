@@ -38,6 +38,17 @@ public class DatabaseConfiguration {
 	}
 	
 	/*
+	 * MyBatis와 관련된 설정 가져오기 
+	 * 
+	 */
+	@Bean
+	@ConfigurationProperties(prefix="mybatis.configuration")
+	public org.apache.ibatis.session.Configuration mybatisConfig(){
+		return new org.apache.ibatis.session.Configuration();
+	}
+	
+	
+	/*
 	 * 위에서 만든 히카리CP 설정파일을 이용해 데이터베이스와 연결하는 데이터소스 생성 
 	 * 
 	 */
@@ -54,6 +65,8 @@ public class DatabaseConfiguration {
 		sqlSessionFactoryBean.setDataSource(dataSource);
 		// mapper 파일 : SQL을 담고있는 XML파일을 의미 
 		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/sql-*.xml"));
+		// mybatis 설정 관련
+		sqlSessionFactoryBean.setConfiguration(mybatisConfig());
 		
 		return sqlSessionFactoryBean.getObject();
 	}
