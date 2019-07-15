@@ -35,4 +35,21 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	/*
+	 * 게시글 등록 주소 
+	 * 
+	 */
+	@RequestMapping("/board/openBoardWrite.do")
+	public String openBoardWrite() throws Exception{
+		return "/board/boardWrite";
+	}
+	/*
+	 * 작성 후 리다이렉트
+	 */
+	@RequestMapping("/board/insertBoard.do")
+	public String insertBoard(BoardDto board) throws Exception{
+		boardService.insertBoard(board);
+		return "redirect:/board/openBoardList.do";
+	}
 }
