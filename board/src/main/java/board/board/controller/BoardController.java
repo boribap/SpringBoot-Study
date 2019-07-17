@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import board.board.dto.BoardDto;
@@ -51,5 +52,22 @@ public class BoardController {
 	public String insertBoard(BoardDto board) throws Exception{
 		boardService.insertBoard(board);
 		return "redirect:/board/openBoardList.do";
+	}
+	
+	/*
+	 * 상세화면의 호출 주소 추가
+	 * 
+	 * 글 상세 내용 조회하는 로직 호출 
+	 * 
+	 */
+	@RequestMapping("/board/openBoardDetail.do")
+	public ModelAndView openBoardDetail(@RequestParam int boardIdx) throws Exception {
+		ModelAndView mv = new ModelAndView("/board/boardDetail");
+		
+		BoardDto board = boardService.selectBoardDetail(boardIdx);
+		// 게시글 상세화면을 호출하면 게시글의 상세 내용을 조회하고 그 결과를 board 라는 키로 뷰로 넘겨줌
+		mv.addObject("board",board);
+		
+		return mv;
 	}
 }
