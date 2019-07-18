@@ -47,6 +47,27 @@
 		<a href="#this" id="list" class="btn">목록으로</a>
 		<a href="#this" id="edit" class="btn">수정하기</a>
 		<a href="#this" id="delete" class="btn">삭제하기</a>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#list").on("click", function(){
+					location.href = "openBoardList.do";
+				})
+				
+				$("#edit").on("click", function(){
+					var frm = $("#frm")[0];
+					frm.action = "updateBoard.do";
+					frm.submit();
+				})
+				
+				$("#delete").on("click", function(){
+					var frm = $("#frm")[0];
+					frm.action = "deleteBoard.do";
+					frm.submit();
+				})
+			})
+		</script>
 	</div>
 </body>
 </html>
