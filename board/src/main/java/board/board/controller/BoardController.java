@@ -2,6 +2,8 @@ package board.board.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	/*
+	 * 로거 적용
+	 */
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	/*
 	 * 주소 지정 
 	 * 뷰 지정 
 	 * 게시글 조회 
@@ -30,6 +37,8 @@ public class BoardController {
 	@RequestMapping("/board/openBoardList.do")
 	public ModelAndView openBoardList() throws Exception{
 		ModelAndView mv = new ModelAndView("/board/boardList");
+		
+		log.debug("openBoardList");
 		
 		List<BoardDto> list = boardService.selectBoardList();
 		mv.addObject("list", list);
