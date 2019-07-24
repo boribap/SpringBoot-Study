@@ -36,7 +36,6 @@ public class BoardServiceImpl implements BoardService{
 	public BoardDto selectBoardDetail(int boardIdx) throws Exception{
 		BoardDto board = boardMapper.selectBoardDetail(boardIdx);
 		boardMapper.updateHitCount(boardIdx);
-		
 		return board;
 	}
 	
