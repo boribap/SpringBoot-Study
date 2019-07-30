@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import board.board.dto.BoardDto;
@@ -56,10 +57,12 @@ public class BoardController {
 	}
 	/*
 	 * 작성 후 리다이렉트
+	 * 
+	 * MultipartHttpServletRequest : 업로드된 파일을 처리하기 위한 다양한 메서드 제공하는 인터페이스
 	 */
 	@RequestMapping("/board/insertBoard.do")
-	public String insertBoard(BoardDto board) throws Exception{
-		boardService.insertBoard(board);
+	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+		boardService.insertBoard(board, multipartHttpServletRequest);
 		return "redirect:/board/openBoardList.do";
 	}
 	
