@@ -36,6 +36,24 @@
 		]]>
 	</insert>
 	
+	<insert id="insertBoardFileList" parameterType="board.board.dto.BoardFileDto">
+		<![CDATA[
+			INSERT INTO t_file
+			(board_idx, original_file_name, stored_file_path, file_size, creator_id, creator_datetime)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.boardIdx},
+				#{item.originalFileName},
+				#{item.storedFilePath},
+				#{item.fileSize},
+				'admin',
+				NOW()
+			)
+		</foreach>
+	</insert>
+	
 	<select id="selectBoardDetail" parameterType="int" resultType="board.board.dto.BoardDto">
 		<![CDATA[
 			SELECT
