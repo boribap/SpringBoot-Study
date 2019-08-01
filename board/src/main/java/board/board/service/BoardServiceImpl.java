@@ -82,7 +82,14 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public BoardDto selectBoardDetail(int boardIdx) throws Exception{
+		// 게시글 내용 조회 
 		BoardDto board = boardMapper.selectBoardDetail(boardIdx);
+		
+		// 게시글 번호로 게시글의 첨부파일 목록 조회 
+		List<BoardFileDto> fileList = boardMapper.selectBoardFileList(boardIdx);
+		board.setFileList(fileList);
+		
+		// 게시글 조회수 증가 
 		boardMapper.updateHitCount(boardIdx);
 
 		return board;
