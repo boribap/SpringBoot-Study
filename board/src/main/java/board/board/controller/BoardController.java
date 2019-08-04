@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,11 +44,11 @@ public class BoardController {
 	 * 게시글 조회 
 	 * 
 	 */
-	@RequestMapping("/board/openBoardList.do")
+	@RequestMapping(value="/board", method=RequestMethod.GET)
 	public ModelAndView openBoardList() throws Exception{
-		ModelAndView mv = new ModelAndView("/board/boardList");
+		ModelAndView mv = new ModelAndView("/board/restBoardList");
 		
-		log.debug("openBoardList");
+		log.debug("restBoardList");
 		
 		List<BoardDto> list = boardService.selectBoardList();
 		mv.addObject("list", list);
@@ -58,19 +60,19 @@ public class BoardController {
 	 * 게시글 등록 주소 
 	 * 
 	 */
-	@RequestMapping("/board/openBoardWrite.do")
+	@RequestMapping(value="/board/write", method=RequestMethod.GET)
 	public String openBoardWrite() throws Exception{
-		return "/board/boardWrite";
+		return "/board/restBoardWrite";
 	}
 	/*
 	 * 작성 후 리다이렉트
 	 * 
 	 * MultipartHttpServletRequest : 업로드된 파일을 처리하기 위한 다양한 메서드 제공하는 인터페이스
 	 */
-	@RequestMapping("/board/insertBoard.do")
+	@RequestMapping(value="/board/write", method=RequestMethod.POST)
 	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
 		boardService.insertBoard(board, multipartHttpServletRequest);
-		return "redirect:/board/openBoardList.do";
+		return "redirect:/board";
 	}
 	
 	/*
@@ -79,9 +81,9 @@ public class BoardController {
 	 * 글 상세 내용 조회하는 로직 호출 
 	 * 
 	 */
-	@RequestMapping("/board/openBoardDetail.do")
-	public ModelAndView openBoardDetail(@RequestParam int boardIdx) throws Exception {
-		ModelAndView mv = new ModelAndView("/board/boardDetail");
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.GET)
+	public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception {
+		ModelAndView mv = new ModelAndView("/board/restBoardDetail");
 		
 		BoardDto board = boardService.selectBoardDetail(boardIdx);
 		// 게시글 상세화면을 호출하면 게시글의 상세 내용을 조회하고 그 결과를 board 라는 키로 뷰로 넘겨줌
@@ -94,29 +96,29 @@ public class BoardController {
 	 * 게시글을 수정하는 주소 
 	 * 
 	 */
-	@RequestMapping("/board/updateBoard.do")
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.PUT)
 	public String updateBoard(BoardDto board) throws Exception{
 		boardService.updateBoard(board);
 		
-		return "redirect:/board/openBoardList.do";
+		return "redirect:/board";
 	}
 	
 	/*
 	 * 게시글을 삭제하는 주소 
 	 * 
 	 */
-	@RequestMapping("/board/deleteBoard.do")
-	public String deleteBoard(int boardIdx) throws Exception{
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.DELETE)
+	public String deleteBoard(@PathVariable("boardIdx") int boardIdx) throws Exception{
 		boardService.deleteBoard(boardIdx);
 		
-		return "redirect:/board/openBoardList.do";
+		return "redirect:/board";
 	}
 	
 	/*
 	 * 파일 다운로드 하는 주소 
 	 * 
 	 */
-	@RequestMapping("/board/downloadBoardFile.do")
+	@RequestMapping(value="/board/file", method=RequestMethod.GET)
 	public void downloadBoradFile(@RequestParam int idx, @RequestParam int boardIdx, HttpServletResponse response) throws Exception{
 		
 		BoardFileDto boardFile = boardService.selectBoardFileInformation(idx, boardIdx);
