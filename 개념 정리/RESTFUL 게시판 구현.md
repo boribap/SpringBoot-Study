@@ -37,7 +37,8 @@
 
 #### REST API로 변경 
 
-
-
-
+- 지금까지는 Thymeleaf, jQuery를 사용해 화면을 개발 --> 한 주소에서 비지니스 로직도 처리하고 화면도 호출함 
+- 이것을 구분해 줘야 REST API를 만든것이라고 할 수 있음 
+- `@RestController` 어노테이션을 사용 --> 해당 API의 응답 결과를 웹 response body를 이용해서 보내준다.  결과값을 JSON형식으로 만들어 준다. 
+- post 메서드는 `@RequestBody` 를 사용하고 get은 `@RequesParam` 어노테이션을 사용한다.
 
