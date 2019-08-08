@@ -50,3 +50,30 @@ JPA는 기술 명세이기때문에 이 기술명세에 따라 실제로 기능�
 
    
 
+#### 엔티티 생성 
+
+- 기존에는 BoardDto, BoardFileDto를 사용함 
+
+- `@Entity` 어노테이션 사용 --> 해당 클래스가 JPA의 엔티티임을 나타냄 
+- 엔티티 클래스는 테이블과 매핑됨 
+- `@id` --> 엔티티의 PK 나타냄 
+
+
+
+#### Jpa 컨트롤러 생성 
+
+- `/jpa` 를 붙여 URI 작성 
+- repository 사용하여 작성
+
+
+
+#### 뷰 생성
+
+- jpa를 위한 뷰 생성 
+- `th:text="|${list.originalFileName}(${#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"` : 마이바티스는 쿼리에서 첨부파일의 크기를 계산했지만 JPA는 쿼리를 작성하지 않기 때문에 화면에서 첨부파일의 크기를 변경해서 보여줘야한다.
+
+
+
+#### Repository 생성
+
+- 스프링데이터 JPA가 제공하는 인터페이스

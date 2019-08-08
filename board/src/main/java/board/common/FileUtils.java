@@ -13,17 +13,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.board.dto.BoardFileDto;
+import board.board.entity.BoardFileEntity;
 
 // 해당 어노테이션을 사용하여 FileUtils 클래스를 스프링의 bean으로 등록
 @Component
 public class FileUtils {
 
-	public List<BoardFileDto> parseFileInfo(int boardIdx, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+	public List<BoardFileEntity> parseFileInfo(MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
 		if(ObjectUtils.isEmpty(multipartHttpServletRequest)) {
 			return null;
 		}
 		
-		List<BoardFileDto> fileList = new ArrayList<>();
+		List<BoardFileEntity> fileList = new ArrayList<>();
 		
 		// 파일이 업로드될 폴더 생성 
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -65,11 +66,11 @@ public class FileUtils {
 					newFilename = Long.toString(System.nanoTime()) + originalFileExtension;
 					
 					// BoardFileDto에 파일 정보 저장 
-					BoardFileDto boardFile = new BoardFileDto();
-					boardFile.setBoardIdx(boardIdx);
+					BoardFileEntity boardFile = new BoardFileEntity();
 					boardFile.setFileSize(multipartFile.getSize());
 					boardFile.setOriginalFileName(multipartFile.getOriginalFilename());
 					boardFile.setStoredFilePath(path + "/" + newFilename);
+					boardFile.setCreatorId("admin");
 					
 					fileList.add(boardFile);
 					
