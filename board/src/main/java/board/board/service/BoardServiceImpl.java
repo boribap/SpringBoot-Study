@@ -1,3 +1,4 @@
+
 package board.board.service;
 
 import java.util.Iterator;
@@ -18,57 +19,53 @@ import board.board.mapper.BoardMapper;
 import board.common.FileUtils;
 
 @Service
-public class BoardServiceImpl implements BoardService{
-	
-	/*
-	 * 데이터베이스에 접근하는 DAO 빈 선언 
-	 * 
-	 */
+public class BoardServiceImpl implements BoardService {
+
+//데이터베이스에 접근하는 DAO 빈 선언
 	@Autowired
 	private BoardMapper boardMapper;
-	
-	/*
-	 * 파일 정보 저장하기 위해 만든 FileUtils 클래스 사용하기 
-	 */
+
+	// 파일 정보 저장하기 위해 만든 FileUtils 클래스 사용하기
+
 	@Autowired
 	private FileUtils fileUtils;
-	
+
 	private Logger log = LoggerFactory.getLogger(this.getClass());
-	
-	/*
-	 * 사용자 요청 처리를 위한 비즈니스 로직 구현 
-	 * 
-	 */
+
+	// 사용자 요청 처리를 위한 비즈니스 로직 구현
+
 	@Override
-	public List<BoardDto> selectBoardList() throws Exception{
+	public List<BoardDto> selectBoardList() throws Exception {
 		return boardMapper.selectBoardList();
 	}
-	
+
 	@Override
-	public void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
-		// 게시글 등록 -> 게시글 먼저 등록 후 등록된 게시글 번호를 이용해 파일을 저장 
+	public void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+
+		// 게시글 등록 -> 게시글 먼저 등록 후 등록된 게시글 번호를 이용해 파일을 저장
+
 		boardMapper.insertBoard(board);
-		
-		// FileUtils 클래스를 이용해서 서버에 파일 저장 
+
+		// FileUtils 클래스를 이용해서 서버에 파일 저장
 		List<BoardFileDto> list = fileUtils.parseFileInfo(board.getBoardIdx(), multipartHttpServletRequest);
-		
-		// 파일의 정보를 맵에 저장 
-		if(CollectionUtils.isEmpty(list) == false) {
+
+		// 파일의 정보를 맵에 저장
+		if (CollectionUtils.isEmpty(list) == false) {
 			boardMapper.insertBoardFileList(list);
 		}
-		
-		// 파일관련 로그 남기기 
-		if(ObjectUtils.isEmpty(multipartHttpServletRequest) == false) {
-			
-			// html 에서 사용한 파일 태그를 불러오는 작업 
+
+		// 파일관련 로그 남기기
+		if (ObjectUtils.isEmpty(multipartHttpServletRequest) == false) {
+
+			// html 에서 사용한 파일 태그를 불러오는 작업
 			// 파일 태그가 여러개 일수도 있기 때문에 iterator 사용함.
 			Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 			String name;
-			while(iterator.hasNext()) {
+			while (iterator.hasNext()) {
 				name = iterator.next();
 				log.debug("file tag name : " + name);
 				List<MultipartFile> lst = multipartHttpServletRequest.getFiles(name);
-				for(MultipartFile multipartFile : lst) {
+				for (MultipartFile multipartFile : lst) {
 					log.debug("start file information");
 					log.debug("file name : " + multipartFile.getOriginalFilename());
 					log.debug("file size : " + multipartFile.getSize());
@@ -77,36 +74,35 @@ public class BoardServiceImpl implements BoardService{
 				}
 			}
 		}
-		
+
 	}
-	
+
 	@Override
-	public BoardDto selectBoardDetail(int boardIdx) throws Exception{
-		// 게시글 내용 조회 
+	public BoardDto selectBoardDetail(int boardIdx) throws Exception {
+		// 게시글 내용 조회
 		BoardDto board = boardMapper.selectBoardDetail(boardIdx);
-		
-		// 게시글 번호로 게시글의 첨부파일 목록 조회 
+
+		// 게시글 번호로 게시글의 첨부파일 목록 조회
 		List<BoardFileDto> fileList = boardMapper.selectBoardFileList(boardIdx);
 		board.setFileList(fileList);
-		
-		// 게시글 조회수 증가 
-		boardMapper.updateHitCount(boardIdx);
+
+		// 게시글 조회수 증가 boardMapper.updateHitCount(boardIdx);
 
 		return board;
 	}
-	
+
 	@Override
-	public void updateBoard(BoardDto board) throws Exception{
+	public void updateBoard(BoardDto board) throws Exception {
 		boardMapper.updateBoard(board);
 	}
-	
-	public void deleteBoard(int boardIdx) throws Exception{
+
+	public void deleteBoard(int boardIdx) throws Exception {
 		boardMapper.deleteBoard(boardIdx);
 	}
-	
+
 	@Override
-	public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception{
+	public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception {
 		return boardMapper.selectBoardFileInformation(idx, boardIdx);
 	}
-	
+
 }

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.board.entity.BoardEntity;
 import board.board.entity.BoardFileEntity;
+import board.board.repository.JpaBoardRepository;
 import board.common.FileUtils;
 
 @Service
