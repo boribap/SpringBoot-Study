@@ -86,7 +86,8 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardFileDto> fileList = boardMapper.selectBoardFileList(boardIdx);
 		board.setFileList(fileList);
 
-		// 게시글 조회수 증가 boardMapper.updateHitCount(boardIdx);
+		// 게시글 조회수 증가 
+		boardMapper.updateHitCount(boardIdx);
 
 		return board;
 	}

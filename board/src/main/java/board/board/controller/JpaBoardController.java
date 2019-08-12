@@ -46,7 +46,7 @@ public class JpaBoardController {
 		
 		jpaBoardService.saveBoard(board, multipartHttpServletRequest);
 		
-		return "redirect:/board/jpaBoard";
+		return "redirect:/jpa/board";
 	}
 	
 	@RequestMapping(value="/jpa/board/{boardIdx}", method=RequestMethod.GET)
