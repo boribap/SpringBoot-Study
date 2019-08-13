@@ -67,9 +67,34 @@
 
   스프링 부트 어플리케이션은 톰캣을 내장하고 있지만 실제 서비스하기에는 어려움이 있음 --> 그래서 톰캣 설치
 
-- board 어플리케이션 구동할 톰캣 & cloud-config 어플리케이션 구동할 톰캣 필요 
+- board 어플리케이션 구동할 톰캣 & cloud-config 어플리케이션 구동할 톰캣 필요 --> 2개의 톰캣을 생성 
 
-  
+  ```
+  cp -r apache-tomcat-8.5.43 apache-tomcat-8.5.43-board
+  sudo mv apache-tomcat-8.5.43-board /usr/local/apache-tomcat-8.5.43-board
+  sudo mv apache-tomcat-8.5.43 /usr/local/apache-tomcat-8.5.43-config
+  ```
+
+- board 톰캣 설정하기 
+
+  apache-tomcat-8.5.43-board 의 conf 폴더의 server.xml 수정 
+
+  ```
+  // 성능상 false 로 바꿈 
+  <Host name="localhost"  appBase="."             unpackWARs="false" autoDeploy="false">        
+  // 톰캣이 사용할 소스의 위치 지정 --> 편의를 위함 
+  <Context docBase="/home/아이디/src/board" path="" reloadable="false"/>
+  ```
+
+- confid 톰캣 설정 
+
+  2개 이상의 톰캣이 있으면 동일 포트를 사용하려고 해서 문제가 생김 --> 포트 변경해주기 
+
+  apache-tomcat-8.5.43-config 의 conf 폴더의 server.xml 수정
+
+  - 톰캣에 접속시 사용하는 포트 (8080 --> 8888)
+  - ajp 포트도 변경 (사용하지는 않지만 중복되면 안되므로 바꿔줌) 
+    - AJP : Apache JServ Protocol : 아파치와 톰캣을 연동할때 사용. 아파치 웹서버가 톰캣과 같은 WAS 와 연동하기 위한 규약
 
 #### 고정 IP 로 변경
 
