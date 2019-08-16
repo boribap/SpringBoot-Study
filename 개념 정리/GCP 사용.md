@@ -4,6 +4,8 @@
 
 - CentOS 7으로 생성 - MariaDB 사용 --> MySQL  설치해야함 
 
+
+
 - **mysql 설치** 
 
   `sudo yum -y install http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm`
@@ -86,7 +88,7 @@
   <Context docBase="/home/아이디/src/board" path="" reloadable="false"/>
   ```
 
-- confid 톰캣 설정 
+- config 톰캣 설정 
 
   2개 이상의 톰캣이 있으면 동일 포트를 사용하려고 해서 문제가 생김 --> 포트 변경해주기 
 
@@ -95,6 +97,32 @@
   - 톰캣에 접속시 사용하는 포트 (8080 --> 8888)
   - ajp 포트도 변경 (사용하지는 않지만 중복되면 안되므로 바꿔줌) 
     - AJP : Apache JServ Protocol : 아파치와 톰캣을 연동할때 사용. 아파치 웹서버가 톰캣과 같은 WAS 와 연동하기 위한 규약
+
+
+
+- **젠킨스 설치**
+
+  - wget 설치 후 해당 명령어로 젠킨스 설치파일 다운
+
+    `sudo yum -y install wget`
+
+    `sudo wget -0 /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins/repo`
+
+    `sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key`
+
+    `sudo yum -y install jenkins`
+
+- 젠킨스 설정 
+
+  - 젠킨스 포트 변경 
+
+  - 우리가 설치한 자바 경로로 젠킨스의 자바 경로 수정 
+
+  - *오류 해결 못함*
+
+    > AWT is not properly configured on this server. Perhaps you need to run your container with "-Djava.awt.headless=true"? See also: https://jenkins.io/redirect/troubleshooting/java.awt.headless 
+
+    위와 같은 오류 발생가 발생해서 `/etc/sysconfig/jenkins` 파일의 `JAVA OPTION 부분` 수정했는데도 오류 안사라짐  --> 그래서 지금 stop 중인 상태
 
 #### 고정 IP 로 변경
 
