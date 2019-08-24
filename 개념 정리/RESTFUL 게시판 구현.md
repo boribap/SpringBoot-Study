@@ -42,3 +42,7 @@
 - `@RestController` 어노테이션을 사용 --> 해당 API의 응답 결과를 웹 response body를 이용해서 보내준다.  결과값을 JSON형식으로 만들어 준다. 
 - post 메서드는 `@RequestBody` 를 사용하고 get은 `@RequesParam` 어노테이션을 사용한다.
 
+
+
+#### 스웨거를 이용해 REST API 문서화
+

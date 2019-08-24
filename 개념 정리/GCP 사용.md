@@ -132,7 +132,9 @@
 
 - 그레이들 설치 
 
-- ssh 등록 과정에서 `Permission denied (publickey,gssapi-keyex,gssapi-with-mic).` 와 같은 오류가 발생해 다시 stop 상태 
+- ssh 등록 과정에서 `Permission denied (publickey,gssapi-keyex,gssapi-with-mic).` 와 같은 오류가 발생해 다시 stop 상태 --> 리부팅하여 해결 
+
+- 톰캣에 JAVA_HOME 설정
 
 #### 고정 IP 로 변경
 
