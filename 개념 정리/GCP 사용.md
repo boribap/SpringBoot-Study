@@ -123,6 +123,8 @@
     > AWT is not properly configured on this server. Perhaps you need to run your container with "-Djava.awt.headless=true"? See also: https://jenkins.io/redirect/troubleshooting/java.awt.headless 
 
     위와 같은 오류 발생가 발생해서 `/etc/sysconfig/jenkins` 파일의 `JAVA OPTION 부분` 수정했는데도 오류 안사라짐  --> 그래서 지금 stop 중인 상태
+    
+    > 다시 인스턴스 생성하고 같은 과정을 반복해서 해결완료 
 
 #### 고정 IP 로 변경
 
